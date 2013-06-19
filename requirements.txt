@@ -1,0 +1,12 @@
+PIL
+django-debug-toolbar
+django-tagging
+Pygments
+Markdown
+South
+
+-e git+git://github.com/ktonon/django-disqus.git#egg=disqus
+-e git+git://github.com/brosner/django-oembed.git#egg=oembded
+-e git+git://github.com/montylounge/django-google-analytics.git#egg=google_analytics
+-e git://github.com/sorl/sorl-thumbnail.git#egg=sorl_thumbnail
+-e git://github.com/sehmaschine/django-grappelli.git#egg=django-grappelli

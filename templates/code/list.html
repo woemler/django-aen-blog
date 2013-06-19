@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Code</h2>
+
+Coming soon...
+
+{% for object in code_list %}
+<div class="post">
+	<h2 class="title"><a href="{{object.get_absolute_url}}">{{ object.title}}</a></h2>
+	<div style="clear: both;">&nbsp;</div>
+	<div class="entry">
+		{{ object.body|truncatewords_html:"100"|safe }}
+	</div>
+	<div class="meta">
+		<p class="links"><a href="{{object.get_absolute_url}}" class="more">More</a></p>
+	</div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load disqus_tags render_as_template %}
+
+{% block content %}
+
+{% disqus_dev %}
+
+<div class="page-nav">
+	{% if selected_post.get_previous_published %}
+	<div class="previous">
+		<a href="{{ selected_post.get_previous_published.get_absolute_url }}" title=" {{selected_post.get_previous_published.title}}">« previous</a>
+	</div>
+	{% endif %}
+	{% if selected_post.get_next_published %}
+	<div class="next">
+		<a href="{{ selected_post.get_next_published.get_absolute_url }}" title=" {{selected_post.get_next_published.title}}">next »</a>
+	</div>
+	{% endif %}
+</div>
+<div style="clear: both;">&nbsp;</div>
+<div class="post">
+	<h2 class="title">{{ selected_post.title}}</h2>
+	<p class="date">{{ selected_post.pub_date }}</p>
+	<div style="clear: both;">&nbsp;</div>
+	<div class="entry">
+		{% render_as_template selected_post.body %}
+	</div>
+	<div class="meta">
+		<p class="tags">
+			Tags: 
+			{% for tag in selected_post.get_tags %}
+				<a href="/tags/{{ tag }}">{{ tag }}</a>&nbsp;
+			{% endfor %}
+		</p>
+		<br><br><br>
+		<p class="disqus">
+			{% if selected_post.enable_comments %}
+			{% disqus_show_comments %}
+			{% endif %}
+		</p>
+	</div>
+</div>
+
+{% endblock %}

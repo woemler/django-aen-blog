@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load thumbnail get_image_url get_image_html %}
+
+{% block content %}
+<div class="media">
+
+<h2>Photo Gallery</h2><br />
+{% if recent_family %}
+<h2><a href="/media/gallery/family">Family ({{ recent_family|length }} photo{{ recent_family|length|pluralize:"s" }})</a></h2>
+{% for im in recent_family %}
+{% if forloop.counter < 6 %}
+{% thumbnail im.image "120x120" crop="center" as thumb %}
+	<a href="{{ im.image.url }}"><img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" title="{{ im.caption }}"></a>
+{% endthumbnail %}
+{% endif %}
+{% endfor %}
+<br /><br />
+{% endif %}
+
+
+{% if recent_house %}
+<h2><a href="/media/gallery/house">House ({{ recent_house|length }} photo{{ recent_house|length|pluralize:"s" }})</a></h2>
+{% for im in recent_house %}
+{% if forloop.counter < 6 %}
+{% thumbnail im.image "120x120" crop="center" as thumb %}
+	<a href="{{ im.image.url }}"><img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" title="{{ im.caption }}"></a>
+{% endthumbnail %}
+{% endif %}
+{% endfor %}
+<br /><br />
+{% endif %}
+
+
+{% if recent_design %}
+<h2><a href="/media/gallery/design">Design ({{ recent_design|length }} photo{{ recent_design|length|pluralize:"s" }})</a></h2>
+{% for im in recent_design %}
+{% if forloop.counter < 6 %}
+{% thumbnail im.image "120x120" crop="center" as thumb %}
+	<a href="{{ im.image.url }}"><img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" title="{{ im.caption }}"></a>
+{% endthumbnail %}
+{% endif %}
+{% endfor %}
+<br /><br />
+{% endif %}
+
+
+{% if recent_misc %}
+<h2><a href="/media/gallery/misc">Misc ({{ recent_misc|length }} photo{{ recent_misc|length|pluralize:"s" }})</a></h2>
+{% for im in recent_misc %}
+{% if forloop.counter < 6 %}
+{% thumbnail im.image "120x120" crop="center" as thumb %}
+	<a href="{{ im.image.url }}"><img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" title="{{ im.caption }}"></a>
+{% endthumbnail %}
+{% endif %}
+{% endfor %}
+<br /><br />
+{% endif %}
+
+</div>
+
+{% endblock %}

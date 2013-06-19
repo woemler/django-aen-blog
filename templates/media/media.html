@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block content %}
+<div class="media">
+<h2>Media</h2><br />
+<h2><a href="/media/gallery">Photo Gallery ({{ recent_gallery|length }} photo{{ recent_gallery|length|pluralize:"s" }})</a></h2>
+
+{% for im in recent_gallery %}
+{% if forloop.counter < 6 %}
+{% thumbnail im.image "120x120" crop="center" as thumb %}
+	<a href="{{ im.image.url }}"><img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" title="{{ im.caption }}"></a>
+{% endthumbnail %}
+{% endif %}
+{% endfor %}
+
+<br /><br />
+
+<h2><a href="/media/videos">Videos ({{ recent_videos|length }} video{{ recent_videos|length|pluralize:"s" }})</a></h2>
+
+{% for vid in recent_videos %}
+{% if forlopp.counter < 4 %}
+{{ vid.embed_html|safe }}<br />
+{% endif %}
+{% endfor %}
+
+</div>
+
+{% endblock %}

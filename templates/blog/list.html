@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load disqus_tags render_as_template %}
+
+{% block content %}
+
+{% disqus_dev %}
+
+{% for object in selected_posts.object_list %}
+<div class="post">
+	<h2 class="title"><a href="{{object.get_absolute_url}}">{{ object.title}}</a></h2>
+	<p class="date">{{ object.pub_date }}</p>
+	<div style="clear: both;">&nbsp;</div>
+	<div class="entry">
+		{% filter truncatewords_html:"150" %}
+		{% render_as_template object.body %}
+		{% endfilter %}
+	</div>
+	<div class="meta">
+		<p class="tags">
+			Tags: 
+			{% for tag in object.get_tags %}
+				<a href="/tags/{{ tag }}">{{ tag }}</a>&nbsp;
+			{% endfor %}
+		</p>
+		<p class="links">
+		{% if object.enable_comments %}
+		<a href="{{object.get_absolute_url}}#disqus_thread" class="comments">{% disqus_num_replies %}</a>
+		{% endif %}
+		&nbsp;<a href="{{object.get_absolute_url}}" class="more">More</a></p>
+	</div>
+</div>
+{% endfor %}
+
+<br/>
+<div class="pagination">
+	<span class="page-nav">
+		{% if selected_posts.has_previous %}
+			<span class="previous"><a href="?page={{ selected_posts.previous_page_number }}">Newer Posts</a></span>
+		{% endif %}
+		
+		<span class="current">
+			Page {{ selected_posts.number }} of {{ selected_posts.paginator.num_pages }}.
+		</span>
+		
+		{% if selected_posts.has_next %}
+			<span class="next"><a href="?page={{ selected_posts.next_page_number }}">Older Posts</a></span>
+		{% endif %}
+	</span>
+</div>
+
+{% endblock %}

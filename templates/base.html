@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+
+-->
+
+{% load get_latest_filtered get_latest static analytics thumbnail %}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Anything, Everything & Nothing</title>
+<link href="{% get_static_prefix %}css/style.css" rel="stylesheet" type="text/css" />
+<link href="{% get_static_prefix %}css/friendly.css" rel="stylesheet" type="text/css" />
+</style>
+<script type="text/javascript" src="{% get_static_prefix %}javascript/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="{% get_static_prefix %}javascript/bootstrap.min.js"></script>
+<script type="text/javascript">
+	
+	//Highlight the menu category for the curent page
+	function highlightMenu(){
+		
+		//By default, the category is Home
+		var category = "Home";
+		var page = document.location.href;
+		var result = page.match(/.+?\.com\/(\w*)/);
+
+		if (result != null){
+			if (result[1].match(/^media/) || result[1].match(/^\d{4}/)){
+				category = "Media";
+			}
+			else if (result[1].match(/^code/)){
+				category = "Code";
+			}
+			else if (result[1].match(/^about/)){
+				category = "About";
+			}
+			else if (result[1].match(/^links/)){
+				category = "Links";
+			}
+		}
+
+		//Iterate through the menu list items and match the text to the determined category
+		$('#menu li').each(function(index) {
+			if ($(this).text() == category){
+				$(this).addClass('current_page_item');
+			}
+		});
+	}
+	
+	//Execute when page is loaded and ready
+	$(document).ready(function() {
+		highlightMenu();
+		
+		//Carousel (latest photos) setup
+		$('#myCarousel').carousel();
+	});
+	
+	{% block script %}{% endblock %}
+	
+</script>
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+		<div id="logo">
+			<h1><a href="/"><img src="{% get_static_prefix %}images/logo4.jpg"></img></a></h1>
+		</div>
+	</div>
+	<!-- end #header -->
+	<div id="menu">
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/media">Media</a></li>
+			<li><a href="/code">Code</a></li>
+			<li><a href="/links">Links</a></li>
+			<li><a href="/about">About</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+	<div id="page">
+		<div id="page-bgtop">
+			<div id="page-bgbtm">
+				<div id="content">
+				
+				{% block content %}{% endblock %}
+				
+				</div>
+				<div id="sidebar">
+					<ul>
+						<li>
+							<p class="box">Welcome to Anything, Everything & Nothing: Fun on and off the internets!</p>
+						</li>
+						<li>
+							<h2>Recent Photos</h2>
+							<ul>
+								<div style="height:240px; width:240px">
+								<div id="myCarousel" class="carousel slide">
+								<div class="carousel-inner">
+								{% get_latest images.localImage 5 as latest_photos %}
+								
+								{% for im in latest_photos %}
+								
+								{% if forloop.counter == 1 %}
+								
+									{% thumbnail im.image "240x240" as thumb %}
+										<div class="active item"><a href="{{ im.image.url }}"><img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" title="{{ im.caption }}" ></a></div>
+									{% endthumbnail %}
+									
+								{% else %}
+								
+									{% thumbnail im.image "240x240" as thumb %}
+										<div class="item"><a href="{{ im.image.url }}"><img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" title="{{ im.caption }}" ></a></div>
+									{% endthumbnail %}
+									
+								{% endif %}
+								
+								{% endfor %}
+								</div></div></div>
+							</ul>
+						</li>
+						<li>
+							<h2>Recent Links</h2>
+							<ul>
+								{% get_latest_filtered links.Link 5 as latest_elsewhere where category elsewhere %}
+								{% for object in latest_elsewhere %}
+								<li><a href="{{ object.url }}" target="_empty">{{ object.title }}</a></li>
+								{% endfor %}
+							</ul>
+						</li>
+						<li>
+							<h2>Find Me Here</h2>
+							<ul>
+								{% get_latest_filtered links.Link all as findmehere where category findme %}
+								{% for object in findmehere %}
+								<li><a href="{{ object.url }}" target="_empty">{{ object.title }}</a></li>
+								{% endfor %}
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!-- end #sidebar -->
+				<div style="clear: both;">&nbsp;</div>
+			</div>
+		</div>
+	</div>
+	<!-- end #page -->
+</div>
+<div id="footer" class="footer">
+	<p>Copyright (c) 2013 Any-Every-Nothing.com. All rights reserved. Created by Will Oemler.  Powered by <a href="http://www.djangoproject.com/">Django</a>.</p>
+</div>
+<!-- end #footer -->
+{% analytics %}
+</body>
+</html>

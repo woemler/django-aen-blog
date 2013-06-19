@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load thumbnail get_image_url get_image_html %}
+
+{% block content %}
+
+<div class="media">
+
+<h2>{{ gallery|title }}</h2><br />
+
+{% for im in gallery_thumbs %}
+
+{% thumbnail im.image "120x120" crop="center" as thumb %}
+	<a href="{{ im.image.url }}"><img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" title="{{ im.caption }}" ></a>
+{% endthumbnail %}
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

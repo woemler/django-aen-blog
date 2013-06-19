@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Elsewhere</h2>
+<p>
+{% for object in elsewhere_links %}
+<div class="links">
+	<h3><a href="{{ object.url }} ">{{ object.title}}</a></h3>
+	<p>{{ object.description|safe }}</p>
+</div>
+{% endfor %}
+</p>
+
+<h2>Find Me Here</h2>
+<p>
+{% for object in findme_links %}
+<div class="links">
+	<h3><a href="{{ object.url }} ">{{ object.title}}</a></h3>
+	<p>{{ object.description|safe }}</p>
+</div>
+{% endfor %}
+</p>
+{% endblock %}
